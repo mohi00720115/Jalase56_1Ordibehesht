@@ -1,13 +1,14 @@
 package com.example.jalase56_1ordibehesht.ui
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.jalase56_1ordibehesht.data.Item
 import com.example.jalase56_1ordibehesht.data.ItemDao
 import kotlinx.coroutines.launch
 
 class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
+    val allItems: LiveData<List<Item>> = itemDao.getAllItems().asLiveData()
+
+
     private fun insertItem(item: Item) {
         viewModelScope.launch {
             itemDao.insert(item)
@@ -32,6 +33,11 @@ class InventoryViewModel(private val itemDao: ItemDao) : ViewModel() {
             return false
         }
         return true
+    }
+
+    //3
+    fun getItemWithID(id: Int): LiveData<Item> {
+        return itemDao.getItem(id).asLiveData()
     }
 
 }
